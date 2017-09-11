@@ -1,5 +1,6 @@
 require_relative "../lib/student.rb"
 require_relative "../config/environment.rb"
+require 'pry'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
