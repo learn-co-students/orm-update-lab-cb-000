@@ -57,7 +57,15 @@ class Student
   end
 
   # creates an instance with corresponding attribute values
-  def new_from_db
+    # This class method takes an argument of an array
+    # When we call this method we will pass it the array that is the row returned from the database by the execution of a SQL query
+    # We can anticipate that this array will contain three elements in this order: the id, name and grade of a student
+    # The .new_from_db method uses these three array elements to create a new Student object with these attributes
+  def self.new_from_db(row)
+    id = row[0]
+    name = row[1]
+    grade = row[2]
+    Student.new(id, name, grade)
   end
 
   # returns an instance of student that matches the name from the DB
