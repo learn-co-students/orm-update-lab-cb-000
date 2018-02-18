@@ -51,7 +51,9 @@ class Student
   end
 
   # creates a student object with name and grade attributes
-  def create
+  def self.create(name, grade)
+    student = Student.new(name, grade)
+    student.save
   end
 
   # creates an instance with corresponding attribute values
@@ -64,6 +66,13 @@ class Student
 
   # updates the record associated with a given instance
   def update
+    sql = <<-SQL
+      UPDATE students
+      SET name = ?, grade = ?
+      WHERE id = ?
+    SQL
+
+    DB[:conn].execute(sql, name, grade, id)
   end
 
 
