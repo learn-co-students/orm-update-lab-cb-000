@@ -27,7 +27,13 @@ class Student
   end
 
   # drops the students table from the database
-  def drop_table
+  # This class method should be responsible for dropping the students table
+  def self.drop_table
+    sql = <<-SQL
+      DROP TABLE students
+    SQL
+
+    DB[:conn].execute(sql)
   end
 
   # saves an instance of the Student class to the database and then sets the given students `id` attribute
