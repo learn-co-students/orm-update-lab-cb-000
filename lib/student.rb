@@ -8,11 +8,22 @@ class Student
   def initialize(id=nil, name, grade)
     @id = id
     @name = name
-    @grade = grade 
+    @grade = grade
   end
 
   # creates the students table in the database
-  def create_table
+  # This class method creates the students table with columns that match the attributes of our individual students:
+  # an id (which is the primary key), the name and the grade
+  def self.create_table
+    sql = <<-SQL
+      CREATE TABLE IF NOT EXISTS students (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        grade INTEGER
+      )
+    SQL
+
+    DB[:conn].execute(sql)
   end
 
   # drops the students table from the database
