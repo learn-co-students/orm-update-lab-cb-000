@@ -12,8 +12,8 @@ class Student
   end
 
   # creates the students table in the database
-  # This class method creates the students table with columns that match the attributes of our individual students:
-  # an id (which is the primary key), the name and the grade
+    # This class method creates the students table with columns that match the attributes of our individual students:
+    # an id (which is the primary key), the name and the grade
   def self.create_table
     sql = <<-SQL
       CREATE TABLE IF NOT EXISTS students (
@@ -27,7 +27,7 @@ class Student
   end
 
   # drops the students table from the database
-  # This class method should be responsible for dropping the students table
+    # This class method should be responsible for dropping the students table
   def self.drop_table
     sql = <<-SQL
       DROP TABLE students
@@ -38,7 +38,16 @@ class Student
 
   # saves an instance of the Student class to the database and then sets the given students `id` attribute
   # updates a record if called on an object that is already persisted
+    # This instance method inserts a new row into the database using the attributes of the given object
+    # This method also assigns the id attribute of the object once the row has been inserted into the database.
   def save
+    sql = <<-SQL
+      INSERT INTO students (name, grade)
+      VALUES (?, ?)
+    SQL
+
+    DB[:conn].execute(sql, name, grade)
+    @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
   end
 
   # creates a student object with name and grade attributes
