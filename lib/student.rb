@@ -41,13 +41,17 @@ class Student
     # This instance method inserts a new row into the database using the attributes of the given object
     # This method also assigns the id attribute of the object once the row has been inserted into the database.
   def save
-    sql = <<-SQL
-      INSERT INTO students (name, grade)
-      VALUES (?, ?)
-    SQL
+    if self.id
+      update
+    else
+      sql = <<-SQL
+        INSERT INTO students (name, grade)
+        VALUES (?, ?)
+      SQL
 
-    DB[:conn].execute(sql, name, grade)
-    @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
+      DB[:conn].execute(sql, name, grade)
+      @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
+    end
   end
 
   # creates a student object with name and grade attributes
