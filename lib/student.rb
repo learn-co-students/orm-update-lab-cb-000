@@ -69,7 +69,19 @@ class Student
   end
 
   # returns an instance of student that matches the name from the DB
-  def find_by_name
+    # This class method takes in an argument of a name
+    # It queries the database table for a record that has a name of the name passed in as an argument
+    # Then it uses the #new_from_db method to instantiate a Student object with the database row that the SQL query returns
+  def self.find_by_name(name)
+    sql = <<-SQL
+      SELECT * FROM students
+      WHERE name = ?
+      LIMIT 1
+    SQL
+
+    DB[:conn].execute(sql, name).map do |row|
+      self.new_from_db(row)
+    end.first
   end
 
   # updates the record associated with a given instance
